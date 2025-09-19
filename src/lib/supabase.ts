@@ -36,3 +36,8 @@ export async function insertConnection(data: ConnectionData) {
 
 	return { success: true, data: inserted };
 }
+
+export async function getConnections() {
+	const { error, data } = await supabaseAdmin.from('connections').select('*');
+	return data;
+}

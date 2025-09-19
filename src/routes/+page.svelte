@@ -64,7 +64,8 @@
 	});
 </script>
 
-<main class="h-screen bg-zinc-900 p-8">
+<main class="flex h-screen flex-col space-y-4 bg-zinc-900 p-8">
+	<h1 class="text-3xl font-bold text-zinc-50">Connections</h1>
 	<div class="flex h-full w-full flex-col space-y-4 md:h-auto md:flex-row md:space-x-4">
 		<div class="card flex-1 text-wrap">
 			<h2 class="text-2xl font-bold">📡 Server Info</h2>
