@@ -1,5 +1,5 @@
 @import 'tailwindcss';
 
 .card {
-    @apply rounded-md text-zinc-50 p-4 bg-zinc-950/50 shadow-xl
+	@apply rounded-md bg-zinc-950/50 p-4 text-zinc-50 shadow-xl;
 }

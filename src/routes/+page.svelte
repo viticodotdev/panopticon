@@ -1,6 +1,6 @@
-<!-- +page.svelte -->
 <script lang="ts">
 	import { onMount } from 'svelte';
+
 	export let data;
 
 	let clientInfo = {
@@ -13,7 +13,7 @@
 		touch: ''
 	};
 
-	onMount(() => {
+	onMount(async () => {
 		clientInfo.screen = `${window.screen.width}x${window.screen.height}`;
 		clientInfo.platform = navigator.platform;
 		clientInfo.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -26,6 +26,41 @@
 
 		clientInfo.cores = navigator.hardwareConcurrency?.toString() || 'unknown';
 		clientInfo.touch = 'ontouchstart' in window ? 'Yes' : 'No';
+
+		// Combine everything into one object
+		const connectionData = {
+			ip: data.ip,
+			browser: `${data.ua.browser} ${data.ua.version}`,
+			os: `${data.ua.os} ${data.ua.osVersion}`,
+			device: data.ua.device,
+			engine: data.ua.engine,
+
+			country: data.geo?.country_name || '',
+			region: data.geo?.region || '',
+			city: data.geo?.city || '',
+			location:
+				data.geo?.latitude && data.geo?.longitude
+					? `${data.geo.latitude}, ${data.geo.longitude}`
+					: '',
+			org: data.geo?.org || '',
+
+			screen: clientInfo.screen,
+			platform: clientInfo.platform,
+			timezone: clientInfo.timezone,
+			language: clientInfo.language,
+			memory: clientInfo.memory,
+			cpu: clientInfo.cores,
+			touch: clientInfo.touch
+		};
+
+		// Send to server via form action
+		const formData = new FormData();
+		formData.append('combinedData', JSON.stringify(connectionData));
+
+		await fetch('?/' + 'save', {
+			method: 'POST',
+			body: formData
+		});
 	});
 </script>
 
